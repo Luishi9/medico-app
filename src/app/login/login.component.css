@@ -1,0 +1,67 @@
+section {
+  height: 100vh;
+  margin: 0 auto;
+  padding-top: 32px;
+  font-size: 24px;
+
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    rgba(15, 160, 207, 1),
+    rgba(87, 83, 160, 1)
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(
+    45deg,
+    rgb(76, 179, 197),
+    rgba(15, 160, 207, 1),
+    rgba(87, 83, 160, 1),
+    rgba(87, 83, 160, 1)
+  );
+}
+form-label {
+    background: none;
+    background-color: transparent;
+}
+.form-floating label {
+    transition: transform 0.2s, font-size 0.2s;
+}
+
+.form-floating input:focus+label,
+.form-floating input:not(:placeholder-shown)+label {
+    transform: translate(0, -1.5rem) scale(0.8);
+}
+
+.form-floating input {
+    padding-top: 1.5rem;
+}
+
+.logo{
+    background-color: #fff;
+    
+}
+.logo img{
+    margin: auto;
+    height: 80px;
+    width: 160px;
+    
+    border: 1px solid white;
+}
+
+.logo{
+    position: absolute;
+    height: 180px;
+    width: 180px;
+    top: -75px;
+    border-radius: 50%;
+    background: #fff;
+    padding: 5px;
+}
+
+form{
+    margin-top: 80px;
+}

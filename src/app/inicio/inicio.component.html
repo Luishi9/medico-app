@@ -1,1 +1,27 @@
-<p>inicio works!</p>
+
+<!-- src/app/inicio/inicio.component.html -->
+<div class="d-flex vh-100">
+    <!-- Sidebar izquierdo -->
+    <nav class="bg-light border-end" style="width: 240px;">
+      <ul class="nav flex-column p-3">
+        <li class="nav-item mb-2">
+          <a class="nav-link active" routerLink="/inicio">Inicio</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link" routerLink="/pacientes">Pacientes</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link" routerLink="/consultas">Consultas</a>
+        </li>
+        <!-- ...más enlaces -->
+      </ul>
+    </nav>
+  
+    <!-- Contenido principal -->
+    <main class="flex-grow-1 p-4">
+      <h2>Bienvenido al Consultorio</h2>
+      <p>Aquí irá la información principal...</p>
+      <!-- por ejemplo un <router-outlet> interno si quieres rutas hijas -->
+    </main>
+  </div>
+  

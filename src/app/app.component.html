@@ -1,7 +1,7 @@
-
-<h1>Hola Angular desde WD-PLP</h1>
-
-<button [routerLink]="['/login']">Ir a login</button>
+<ng-container *ngIf ="router.url !== '/login'">
+    <h1>Holaaa Angular desde WD-PLP</h1>
+    <button [routerLink]="['/login']">Ir a login Dx</button>
+</ng-container>
 
 
 <router-outlet />

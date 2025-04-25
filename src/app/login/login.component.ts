@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,13 +18,18 @@ export class LoginComponent {
   usuario: string = '';
   contrasena: string = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   login() {
 
     this.authService.login(this.usuario, this.contrasena).subscribe((res: any) => {
       if (res.success) {
         alert(res.message);
+
+        this.router.navigate(['/inicio']);
       } else {
         alert(res.message);
       }

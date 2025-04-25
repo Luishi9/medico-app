@@ -1,8 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+/* 1. Variables para tus colores */
 :root {
-    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #000000;
+    --card-bg: #f8f9fa;
+    --card-fg: #212529;
 }
 
+/* 2. Cuando el usuario tenga dark mode activo */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121212;
+        --fg: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --card-fg: #f5f5f5;
+    }
+}
+
+/* 3. Úsalas en tu CSS global o componente */
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+/* Por ejemplo, estas clases afectan a los cards que tengas */
+.card {
+    background-color: var(--card-bg) !important;
+    color: var(--card-fg) !important;
+}
+
+
+body {
+
+    /* En styles.css o global.css */
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        /* Puedes personalizar más componentes aquí */
+    }
+
+
+    font-family: system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
 }

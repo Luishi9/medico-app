@@ -36,6 +36,7 @@ export class AuthService {
   // borrar el token al hacer logout
   logout(): void {
     localStorage.removeItem('jwt');
+    console.log('Token eliminado');
   }
 
   // indica si hay un token presente

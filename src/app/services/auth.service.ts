@@ -14,7 +14,7 @@ export interface LoginResponse {
 })
 export class AuthService {
 
-  private apiURL = 'http://localhost/consultorio-api/login.php';
+  private apiURL = 'http://plpweb.infy.uk/consultorio-api/login.php';
 
   constructor(private http: HttpClient) { }
 

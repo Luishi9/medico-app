@@ -17,42 +17,36 @@ export class LoginComponent {
   
   usuario: string = '';
   contrasena: string = '';
+  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) { }
 
-  login() {
-    /*
-    this.authService.login(this.usuario, this.contrasena)
-      .subscribe({
-        next: (res: LoginResponse) => {
-          // Aquí solo entras si status HTTP es 2xx
-          if (res.success && res.token) {
-            this.authService.saveToken(res.token);
-            alert(res.message);
-            this.router.navigate(['/inicio']);
-          } else {
-            // En caso de que devuelvas 200 pero success=false
-            alert(res.message);
-          }
-        },
-        error: err => {
-          // err.status será el código HTTP que devolvió PHP
-          if (err.status === 0) {
-            // No hubo conexión
-            alert('No se pudo conectar al servidor');
-          } else if (err.status === 401) {
-            // Tu PHP devuelve 401 + { success:false, message: "..." }
-            alert(err.error.message);
-          } else {
-            console.error('Error inesperado', err);
-            alert('Ocurrió un error inesperado');
-          }
-        }
-      });
+  onLogin(): void {
+    this.errorMessage = '';
 
-      */
+    // llama al metodo login del servicio
+    this.authService.login(this.usuario, this.contrasena).subscribe({
+      next: (response) => {
+        // Login exitoso, el token ya esta guardado en el servicio
+        console.log('Login successful', response);
+        // Rederigir al usuario a otra pagina
+        this.router.navigate(['/inicio']);
+      },
+      error: (error) => {
+        //Manejo de errores del login
+        console.error('Login Failed', error);
+        // Muestra un mensaje al usuario
+        if (error.status === 400) {
+          this.errorMessage = 'Credenciales inválidas. Verifica el usuario y contraseña.';
+        } else if(error.status === 401){
+          this.errorMessage = 'El usuario con el que intentas iniciar sesion esta inactivo.';
+        }else {
+          this.errorMessage = 'Ocurrió un error al intentar iniciar sesion.';
+        }
+      }
+    });
   }
 }

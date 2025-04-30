@@ -23,6 +23,7 @@ export class RegisterComponent {
   async onRegister() {
     this.errorMessage = null; // Resetear el mensaje de error
 
+    /*
     try {
       const newUser = await this.authService.register(this.email, this.password, this.username);
       if (newUser) {
@@ -47,7 +48,6 @@ export class RegisterComponent {
           this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
       }
     }
+  */
   }
-
-
 }

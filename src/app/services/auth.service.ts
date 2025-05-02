@@ -86,6 +86,42 @@ export class AuthService {
     return localStorage.getItem('authToken');
   }
 
+  /**
+   * obtene la informacion del payload del token JWT
+   * @returns 
+   */
+  getUserInfo(): any | null {
+    const token = this.getToken();
+    if(!token){
+      return null; // Si no hay token, no hay info del usuario
+    }
+
+    try {
+      // los JWT tienen 3 partes separas por '.' (Header.Payload.Signature)
+      const base64Url = token.split('.')[1]; // Obtener la parte del payload
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Reemplazar caracteres para decodificar
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join('')); // Decodificar el payload
+
+
+      // Si usas jwt-decode, sería más simple:
+      // const decodedPayload = jwt_decode(token);
+
+      const decodedPayload = JSON.parse(jsonPayload); // Parseamos el string JSON del payload
+
+      // El payload que creaste en el backend es { user: { id: ..., usuario: ..., etc. } }
+      // Devolvemos el objeto 'user' dentro del payload, o el payload completo si prefieres
+      return decodedPayload.user || null; // Devuelve el objeto user del payload, o null si no existe
+
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      this.logout(); // Elimina el token si no se puede decodificar
+      return null;
+    }
+
+  }
+
    // Aquí irían otros métodos relacionados con la autenticación si los necesitas,
   // como registro, restablecimiento de contraseña, etc., interactuando con tu backend.
 

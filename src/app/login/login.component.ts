@@ -49,4 +49,15 @@ export class LoginComponent {
       }
     });
   }
+
+  onGetToken(): void {
+    const token = this.authService.getToken();
+
+    if (token) {
+      console.log('Token:', token);
+    } else {
+      console.log('No hay token disponible.');
+    }
+    
+  }
 }

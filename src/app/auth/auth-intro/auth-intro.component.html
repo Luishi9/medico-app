@@ -1,0 +1,17 @@
+<div class="text-center">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Holaa Angular desde WD-PLP</h1>
+  
+    <p class="text-gray-600 dark:text-gray-400 mb-6">
+      Bienvenido a la aplicación. Inicia sesión para continuar.
+    </p>
+  
+    <button type="button" [routerLink]="['/login']"
+            class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+      Ir a Login
+    </button>
+  
+    <p class="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
+       No tienes una cuenta? <a [routerLink]="['/registro']" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Regístrate aquí</a>
+    </p>
+  
+  </div>

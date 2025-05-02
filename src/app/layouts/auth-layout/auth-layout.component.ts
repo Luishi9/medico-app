@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { RouterOutlet, RouterLink, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -10,6 +10,6 @@ import { CommonModule } from "@angular/common";
 })
 
 export class AuthLayoutComponent {
-    constructor() {}
+    constructor(public router: Router){}
 }
 

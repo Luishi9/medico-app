@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { RouterOutlet, Router, RouterLink } from '@angular/router';
 
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
@@ -9,7 +8,7 @@ import { initFlowbite } from 'flowbite';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

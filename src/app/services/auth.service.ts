@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from '../app.component';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+
+interface RegisterData {
+  nombre: string;
+  usuario: string;
+  password: string;
+  confirmPassword: string;
+  activo: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +21,7 @@ export class AuthService {
   // Define la URL base de tu backend. Es buena práctica usar variables de entorno para esto.
   // En angular.json puedes configurar archivos de entorno (src/environments/environment.ts)
   private backendUrl = 'http://localhost:5000/api/auth'; // <-- Ajusta esta URL si tu backend no está en localhost:5000
+  private registerEndpoint  = `${this.backendUrl}/register`;
 
   // Inyecta HttpClient en el constructor
   constructor(private http: HttpClient
@@ -21,15 +30,12 @@ export class AuthService {
     // private db: Database
   ) { }
 
-
-
   /**
    * Envía las credenciales al backend para iniciar sesión.
    * @param usuario El nombre de usuario.
    * @param password La contraseña (plana).
    * @returns Un Observable con la respuesta del backend (que debería contener el token).
    */
-
   login(usuario: string, password: string): Observable<any> {
     // la URL completa del endpoint de login en tu backend
     const loginUrl = `${this.backendUrl}/login`;
@@ -61,7 +67,6 @@ export class AuthService {
    * Cierra la sesion del usuario
    * Elimina el token del almacenamiento local
    */
-
   logout(): void {
     localStorage.removeItem('authToken'); // Eliminar el token
     // localStorage.removeItem('currentUser'); // Elimina otros datos si los guardaste
@@ -120,6 +125,40 @@ export class AuthService {
       return null;
     }
 
+  }
+
+
+  /**
+   * Envía los datos de registro al backend para crear un nuevo usuario.
+   * @param registerData Objeto con los datos del nuevo usuario.
+   * @returns Un Observable con la respuesta del backend.
+   */
+  register(registerData: RegisterData): Observable<any> {
+    // enviar la peticion POST al endpoint de registro
+    return this.http.post<any>(this.registerEndpoint, registerData).pipe(
+      tap(response => {
+        // Opcional: Si el backend devuelve el token al registrar, puedes guardarlo aquí
+        // if (response && response.token) {
+        //   localStorage.setItem('authToken', response.token);
+        // }
+        console.log('Respuesta de registro exitoso:', response);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en el registro (AuthService): ', error);
+
+        // pasa el error con el mensaje del backend si esta disponible
+        let errorMessage = 'Ocurrio un error al intentar registrar el usuario.';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        } else if (error.statusText) {
+          errorMessage = error.statusText;
+        }
+
+        // Retorna un Observable de error para que el componente lo maneje
+        return throwError(() => new Error(errorMessage));
+      })
+
+    )
   }
 
    // Aquí irían otros métodos relacionados con la autenticación si los necesitas,

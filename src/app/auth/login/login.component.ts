@@ -33,7 +33,7 @@ export class LoginComponent {
         // Login exitoso, el token ya esta guardado en el servicio
         console.log('Login successful', response);
         // Rederigir al usuario a otra pagina
-        this.router.navigate(['/inicio']);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         //Manejo de errores del login

@@ -4,7 +4,6 @@ import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 import { initDropdowns, initFlowbite } from 'flowbite';
-import { RegisterComponent } from "../auth/register/register.component";
 
 interface UserInfo {
   id: number;
@@ -15,7 +14,7 @@ interface UserInfo {
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

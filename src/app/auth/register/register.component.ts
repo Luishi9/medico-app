@@ -14,41 +14,58 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
 
   nombre: string = '';
-  email: string = '';
+  usuario: string = '';
   password: string = '';
-  username: string = '';
+  confirmPassword: string = '';
   errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) { }
 
   async onRegister() {
     this.errorMessage = null; // Resetear el mensaje de error
+    this.successMessage = null;
 
-    /*
-    try {
-      const newUser = await this.authService.register(this.email, this.password, this.username);
-      if (newUser) {
-        console.log('Usuario registrado:', newUser);
-        // redirigir al usuario a una pagina de inicio o dashboard
-        this.router.navigate(['/inicio']);
-      }
-    } catch (error: any) {
-      console.error('Error al registrar el usuario:', error);
-      // Mostrar mensaje de error al usuario (puedes mejorar el manejo de errores)
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          this.errorMessage = 'El correo electrónico ya está registrado.';
-          break;
-        case 'auth/invalid-email':
-          this.errorMessage = 'El formato del correo electrónico es inválido.';
-          break;
-        case 'auth/weak-password':
-          this.errorMessage = 'La contraseña es demasiado débil (mínimo 6 caracteres).';
-          break;
-        default:
-          this.errorMessage = 'Error al registrar el usuario. Inténtalo de nuevo.';
-      }
+    // **** validacion frontend ****
+    if (!this.nombre || !this.usuario || !this.password || !this.confirmPassword) {
+      this.errorMessage = 'Por favor, completa todos los campos.';
+      return; // Detiene la ejecución si falta algún campo
     }
-  */
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coninciden.';
+      return; // detiene la ejecucion si dalta algun campo
+    }
+
+    // si la validacion pasa, prepara los datos para enviar
+    const registerData = {
+      nombre: this.nombre,
+      usuario: this.usuario,
+      password: this.password,
+      confirmPassword: this.confirmPassword,
+      id_perfil: 1,
+      activo: true,
+    };
+
+    // Llama a la funcion de registro del servicio
+    this.authService.register(registerData).subscribe({
+      next: (response) => {
+        console.log('Registro exitoso', response);
+        this.successMessage = 'Usuario registrado exitosamente. Ya puede iniciar sesion.';
+
+        // Opcional: Redirigir automáticamente al login después de unos segundos
+        // setTimeout(() => {
+        //    this.router.navigate(['/login']);
+        // }, 3000); // Redirige después de 3 segundos
+        // this.router.navigate(['/login']); // O redirige inmediatamente
+
+      },
+      error: (error) => {
+        console.error('Error en el componente de registro: ', error.message);
+        this.errorMessage = error.message;// Muestra el mensaje de error (del backend o genérico)
+      }
+    })
+
+
   }
 }

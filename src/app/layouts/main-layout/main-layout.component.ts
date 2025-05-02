@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from "../../dashboard/dashboard.component";
 import { AuthService } from "../../services/auth.service";
 
-import { initDropdowns, initFlowbite } from 'flowbite';
+import { initDropdowns, initFlowbite, Drawer } from 'flowbite';
 
 interface UserInfo {
     id: number;
@@ -51,9 +51,19 @@ export class MainLayoutComponent {
         console.log('Inicializando dropdowns de Flowbite...'); // Verifica en consola
         // Nota: La forma exacta de inicializar depende de cómo incluiste Flowbite JS
 
+        const sidebarEl = document.getElementById('logo-sidebar');
+
+        sidebarEl?.addEventListener('hide.tw.drawer', () => {
+            const activeEl = document.activeElement as HTMLElement;
+            if (sidebarEl.contains(activeEl)) {
+                activeEl.blur(); // quitar el foco de elementos dentro del sidebar
+            }
+        });
+
         initFlowbite(); // Inicializa Flowbite para usar sus componentes JS
         initDropdowns(); // Inicializa los dropdowns de Flowbite
 
+        
         console.log('Dropdowns de Flowbite inicializados correctamente.');
     }
 

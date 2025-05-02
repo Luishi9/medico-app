@@ -4,6 +4,7 @@ import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 import { initDropdowns, initFlowbite } from 'flowbite';
+import { RegisterComponent } from "../auth/register/register.component";
 
 interface UserInfo {
   id: number;
@@ -14,11 +15,11 @@ interface UserInfo {
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './inicio.component.html',
-  styleUrl: './inicio.component.css'
+  imports: [CommonModule, RouterLink, RouterOutlet],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
 })
-export class InicioComponent {
+export class DashboardComponent {
 
   userInfo: UserInfo | null = null;
 
@@ -40,10 +41,6 @@ export class InicioComponent {
       // Redirigir a la página de login si no hay información del usuario
       //this.router.navigate(['/login']);
     }
-  
-  
-  
-  
   }
 
   ngAfterViewInit(): void {

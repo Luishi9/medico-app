@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { LoginComponent } from './auth/login/login.component';
-import { InicioComponent } from './inicio/inicio.component';
-import { AppComponent } from './app.component';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthGuard } from './auth.guard'; // Importa el AuthGuard
 import { authRoutes } from './auth/auth.routes';
@@ -21,10 +20,10 @@ export const routes: Routes = [
         path: '',
         component: MainLayoutComponent,
         canActivate: [AuthGuard], // Protege la ruta con el AuthGuard
-        children: [
-            { path: 'inicio', component: InicioComponent },
-
-            { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirige a la página de inicio de sesión por defecto
+        children: [ // Sus rutas hijas se renderizarán en el <router-outlet> de MainLayoutComponent
+            { path: 'dashboard', component: DashboardComponent },
+            { path: 'registro-doctor', component: RegisterComponent },
+            { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // Redirige a la página de inicio de sesión por defecto
         ]
     },
     

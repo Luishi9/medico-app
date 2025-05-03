@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, RouterLink } from '@angular/router';
 
 import { OnInit } from '@angular/core';
-import { initFlowbite } from 'flowbite';
+import { initFlowbite, initDrawers, initDropdowns, initModals } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -18,5 +18,8 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     initFlowbite();
+    initDrawers();
+    initDropdowns(); // Inicializa los dropdowns de Flowbite
+    initModals();
   }
 }

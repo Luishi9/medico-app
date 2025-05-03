@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
-
-
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { AuthGuard } from './auth.guard'; // Importa el AuthGuard
 import { authRoutes } from './auth/auth.routes';
 
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component'; // Importa el componente de diseño de autenticación
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component'; // Importa el componente de diseño principal
+
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { ListDocsComponent } from './layouts/main-layout/menu-items/list-docs/list-docs.component';
+
 export const routes: Routes = [
     
     {
@@ -23,6 +24,7 @@ export const routes: Routes = [
         children: [ // Sus rutas hijas se renderizarán en el <router-outlet> de MainLayoutComponent
             { path: 'dashboard', component: DashboardComponent },
             { path: 'registro-doctor', component: RegisterComponent },
+            { path: 'list-doctores', component: ListDocsComponent },
             { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // Redirige a la página de inicio de sesión por defecto
         ]
     },

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from "../../dashboard/dashboard.component";
 import { AuthService } from "../../services/auth.service";
 
-import { initDropdowns, initFlowbite, Drawer } from 'flowbite';
+import { initDropdowns, initFlowbite, Drawer, initModals } from 'flowbite';
 
 interface UserInfo {
     id: number;
@@ -62,6 +62,7 @@ export class MainLayoutComponent {
 
         initFlowbite(); // Inicializa Flowbite para usar sus componentes JS
         initDropdowns(); // Inicializa los dropdowns de Flowbite
+        initModals();
 
         
         console.log('Dropdowns de Flowbite inicializados correctamente.');

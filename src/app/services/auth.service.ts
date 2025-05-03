@@ -8,8 +8,10 @@ import { tap, catchError } from 'rxjs/operators';
 interface RegisterData {
   nombre: string;
   usuario: string;
+  correo: string;
   password: string;
   confirmPassword: string;
+  telefono: string;
   activo: boolean;
 }
 

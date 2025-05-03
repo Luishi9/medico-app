@@ -13,12 +13,17 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
 
-  nombre: string = '';
   usuario: string = '';
+  correo: string = '';
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  nombre: string = '';
+  //apellidos: string = '';
+  telefono: string = '';
+
+  //numDoc: string = '';
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -39,12 +44,16 @@ export class RegisterComponent {
 
     // si la validacion pasa, prepara los datos para enviar
     const registerData = {
-      nombre: this.nombre,
+     
       usuario: this.usuario,
+      correo: this.correo,
       password: this.password,
       confirmPassword: this.confirmPassword,
       id_perfil: 1,
       activo: true,
+
+      nombre: this.nombre,
+      telefono: this.telefono,      
     };
 
     // Llama a la funcion de registro del servicio

@@ -14,7 +14,7 @@ interface UserInfo {
 
 @Component({
     selector: 'app-main-layout',
-    standalone: true,
+    
     imports: [CommonModule, RouterOutlet, RouterLink],
     templateUrl: './main-layout.component.html',
 })
@@ -51,18 +51,9 @@ export class MainLayoutComponent {
         console.log('Inicializando dropdowns de Flowbite...'); // Verifica en consola
         // Nota: La forma exacta de inicializar depende de cómo incluiste Flowbite JS
 
-        const sidebarEl = document.getElementById('logo-sidebar');
-
-        sidebarEl?.addEventListener('hide.tw.drawer', () => {
-            const activeEl = document.activeElement as HTMLElement;
-            if (sidebarEl.contains(activeEl)) {
-                activeEl.blur(); // quitar el foco de elementos dentro del sidebar
-            }
-        });
-
         initFlowbite(); // Inicializa Flowbite para usar sus componentes JS
         initDropdowns(); // Inicializa los dropdowns de Flowbite
-        initModals();
+        //initModals();
 
         
         console.log('Dropdowns de Flowbite inicializados correctamente.');

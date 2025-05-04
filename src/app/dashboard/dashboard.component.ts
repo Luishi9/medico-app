@@ -50,9 +50,6 @@ export class DashboardComponent {
     console.log('Inicializando dropdowns de Flowbite...'); // Verifica en consola
     // Nota: La forma exacta de inicializar depende de cómo incluiste Flowbite JS
 
-    initFlowbite(); // Inicializa Flowbite para usar sus componentes JS
-    initDropdowns(); // Inicializa los dropdowns de Flowbite
-
     console.log('Dropdowns de Flowbite inicializados correctamente.');
   }
 

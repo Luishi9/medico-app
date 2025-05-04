@@ -15,6 +15,15 @@ interface RegisterData {
   activo: boolean;
 }
 
+interface RegisterPaciente {
+  curp: string;
+  nombre: string;
+  fechaNacimiento: string;
+  sexo: string;
+  domicilio: string;
+  telefono: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +33,7 @@ export class AuthService {
   // En angular.json puedes configurar archivos de entorno (src/environments/environment.ts)
   private backendUrl = 'http://localhost:5000/api/auth'; // <-- Ajusta esta URL si tu backend no está en localhost:5000
   private registerEndpoint  = `${this.backendUrl}/register`;
+  private registerPacienteEndpoint = `${this.backendUrl}/register-paciente`;
 
   // Inyecta HttpClient en el constructor
   constructor(private http: HttpClient
@@ -138,6 +148,40 @@ export class AuthService {
   register(registerData: RegisterData): Observable<any> {
     // enviar la peticion POST al endpoint de registro
     return this.http.post<any>(this.registerEndpoint, registerData).pipe(
+      tap(response => {
+        // Opcional: Si el backend devuelve el token al registrar, puedes guardarlo aquí
+        // if (response && response.token) {
+        //   localStorage.setItem('authToken', response.token);
+        // }
+        console.log('Respuesta de registro exitoso:', response);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error en el registro (AuthService): ', error);
+
+        // pasa el error con el mensaje del backend si esta disponible
+        let errorMessage = 'Ocurrio un error al intentar registrar el usuario.';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        } else if (error.statusText) {
+          errorMessage = error.statusText;
+        }
+
+        // Retorna un Observable de error para que el componente lo maneje
+        return throwError(() => new Error(errorMessage));
+      })
+
+    )
+  }
+
+  /**
+   * Envía los datos de registro al backend para crear un nuevo usuario.
+   * @param registerPaciente Objeto con los datos del nuevo usuario.
+   * @returns Un Observable con la respuesta del backend.
+   */
+
+  registerPacientes(registerPaciente: RegisterPaciente): Observable<any> {
+    // enviar la peticion POST al endpoint de registro
+    return this.http.post<any>(this.registerPacienteEndpoint, registerPaciente).pipe(
       tap(response => {
         // Opcional: Si el backend devuelve el token al registrar, puedes guardarlo aquí
         // if (response && response.token) {

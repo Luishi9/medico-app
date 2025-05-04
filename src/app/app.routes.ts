@@ -8,6 +8,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ListDocsComponent } from './layouts/main-layout/menu-items/list-docs/list-docs.component';
+import { RegistrarPacienteComponent } from './layouts/main-layout/menu-items/registrar-paciente/registrar-paciente.component';
 
 export const routes: Routes = [
     
@@ -25,6 +26,7 @@ export const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'registro-doctor', component: RegisterComponent },
             { path: 'list-doctores', component: ListDocsComponent },
+            { path: 'registro-paciente', component: RegistrarPacienteComponent },
             { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // Redirige a la página de inicio de sesión por defecto
         ]
     },

@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     initFlowbite();
-    initDrawers();
     initDropdowns(); // Inicializa los dropdowns de Flowbite
     initModals();
   }

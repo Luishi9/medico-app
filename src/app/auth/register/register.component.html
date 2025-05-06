@@ -13,20 +13,22 @@
 
                     <div class="grid md:grid-cols-2 md:gap-6">
                         <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuario</label>
+                            <label for="email"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuario</label>
                             <input type="text" name="username" id="username" [(ngModel)]="usuario"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required="">
                         </div>
-    
+
                         <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
+                            <label for="email"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
                             <input type="text" name="username" id="username" [(ngModel)]="correo"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="name@company.com" required="">
                         </div>
                     </div>
-                    
+
                     <div class="grid md:grid-cols-2 md:gap-6">
                         <div>
                             <label for="password"
@@ -40,14 +42,14 @@
                             <label for="confirmPassword"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar
                                 contraseña</label>
-                            <input type="password" name="confirmPassword" id="confirmPassword" [(ngModel)]="confirmPassword"
-                                placeholder="••••••••"
+                            <input type="password" name="confirmPassword" id="confirmPassword"
+                                [(ngModel)]="confirmPassword" placeholder="••••••••"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required="">
                         </div>
                     </div>
-                    
-                   
+
+
 
                     <h2>Datos personales: </h2>
 
@@ -55,19 +57,36 @@
 
                         <div class="relative z-0 w-full group">
                             <label for="email"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre
+                                completo</label>
                             <input type="text" name="nombre" id="nombre" [(ngModel)]="nombre"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required="">
                         </div>
                         <div class="relative z-0 w-full group">
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Num.
-                                Telefono</label>
-                            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="telefono" id="telefono"
-                                [(ngModel)]="telefono"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            <form class="mx-auto">
+                                <label for="phone-input"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Num. Telefono:</label>
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                                            <path
+                                                d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="telefono" name="telefono" aria-describedby="helper-text-explanation" [(ngModel)]="telefono"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX" required />
+                                </div>
+                                <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    Select a phone number that matches the format.</p>
+                            </form>
+
                         </div>
-                      
+
                     </div>
 
                     <button type="submit"
@@ -77,7 +96,7 @@
                         <p class="text-red-600 dark:text-red-400" *ngIf="errorMessage">{{ errorMessage }}</p>
                         <p class="text-green-600 dark:text-green-400" *ngIf="successMessage">{{ successMessage }}</p>
                     </div>
-                    
+
 
                 </form>
             </div>

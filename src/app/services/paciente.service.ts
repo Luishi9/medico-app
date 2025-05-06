@@ -48,10 +48,26 @@ export class PacienteService {
         );
     }
 
-    // Metodo privado para manejar errores http
+    // Metodo para actualizar un paciente
+    updatePaciente(id: number, pacienteData: Paciente): Observable<any> {
+        const token = this.authService.getToken();
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            })
+        };
 
+         // Envía una petición PUT al endpoint específico del paciente (ej: /api/pacientes/123)
+         return this.http.put<any>(`${this.pacienteEndpoint}/${id}`, pacienteData, httpOptions).pipe(
+            catchError(this.handleError) // Reutiliza el manejo de errores
+        );
+    }
+
+    // Metodo privado para manejar errores http
     private handleError(error: HttpErrorResponse) {
         let errorMessage = 'Ocurrió un error desconocido.';
+
         if (error.error instanceof ErrorEvent) {
             // Error del lado del cliente
             errorMessage = `Error del cliente: ${error.error.message}`;
@@ -63,7 +79,7 @@ export class PacienteService {
                 errorMessage = `Error del servidor: ${error.error.message}`; // Usa el mensaje del backend
             }
         }
-        console.error('Error en UserService:', errorMessage);
+        console.error('Error en UserService:', error);
         // Retorna un observable con un mensaje de error amigable para el componente
         return throwError(() => new Error(errorMessage));
     }

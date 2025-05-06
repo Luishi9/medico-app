@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { initDatepickers } from 'flowbite';
 
 @Component({
   selector: 'app-registrar-paciente',
@@ -49,25 +50,20 @@ export class RegistrarPacienteComponent {
     // Llama a la funcion de registro del servicio
     this.authService.registerPacientes(registerPaciente).subscribe({
       next: (response) => {
-        console.log('Registro exitoso', response);
+        //console.log('Registro exitoso', response);
         this.successMessage = 'Usuario registrado exitosamente. Ya puede iniciar sesion.';
-
-        // Opcional: Redirigir automáticamente al login después de unos segundos
-        // setTimeout(() => {
-        //    this.router.navigate(['/login']);
-        // }, 3000); // Redirige después de 3 segundos
-        // this.router.navigate(['/login']); // O redirige inmediatamente
 
       },
       error: (error) => {
-        console.error('Error en el componente de registro: ', error.message);
+        //console.error('Error en el componente de registro: ', error.message);
         this.errorMessage = error.message;// Muestra el mensaje de error (del backend o genérico)
       }
     })
-
-
   }
 
+  ngAfterViewInit() {
+    initDatepickers();
+  }
 
 
 }

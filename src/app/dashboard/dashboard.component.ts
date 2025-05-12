@@ -51,6 +51,8 @@ export class DashboardComponent {
     // Nota: La forma exacta de inicializar depende de cómo incluiste Flowbite JS
 
     console.log('Dropdowns de Flowbite inicializados correctamente.');
+
+    initDropdowns();
   }
 
   onLogoutClick(): void {

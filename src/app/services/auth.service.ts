@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from '../app.component';
-import { Observable, of, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  exp?: number; // Fecha de expiracion en formato Unix timestamp (segundos)
+  iat?: number; // Fecha de emision (segundos)
+}
 
 interface RegisterData {
   nombre: string;
@@ -32,15 +36,24 @@ export class AuthService {
   // Define la URL base de tu backend. Es buena práctica usar variables de entorno para esto.
   // En angular.json puedes configurar archivos de entorno (src/environments/environment.ts)
   private backendUrl = 'http://localhost:5000/api/auth'; // <-- Ajusta esta URL si tu backend no está en localhost:5000
-  private registerEndpoint  = `${this.backendUrl}/register`;
+  private registerEndpoint = `${this.backendUrl}/register`;
   private registerPacienteEndpoint = `${this.backendUrl}/register-paciente`;
+
+  private tokenExpirationTimer: any; // Para guardar el ID del temporiador setTimeout
+
+  // Opcional: Un BehaviorSubject para rastrear el estado de autenticación
+  // Puede ser útil para guards o para mostrar/ocultar elementos en la UI
+  private isLoggedInSubject = new BehaviorSubject<Boolean>(this.hasToken());
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   // Inyecta HttpClient en el constructor
   constructor(private http: HttpClient
     // Si ya no usas Firebase Auth/Database para login, remueve estas inyecciones:
     // private auth: Auth,
     // private db: Database
-  ) { }
+  ) {
+    this.autoLogout();
+  }
 
   /**
    * Envía las credenciales al backend para iniciar sesión.
@@ -73,6 +86,75 @@ export class AuthService {
         throw error; // propaga el error para que el componente lo maneje
       })
     );
+  }
+
+  // *** Método para verificar si existe un token en local storage ***
+  private hasToken(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token; // Devuelve true si token existe, false si es null o undefined
+  }
+
+  // *** Método para verificar si el token en local storage ya expiró ***
+  private isTokenExpired(): boolean {
+    const expiration = localStorage.getItem('token_expiration');
+    if (!expiration) {
+      return true; // Si no hay expiración guardada, asumimos que expiró o no hay token válido
+    }
+    const expirationTime = parseInt(expiration, 10); // Convierte la cadena guardada a número
+    return Date.now() >= expirationTime; // Compara la hora actual con la hora de expiración
+  }
+
+  // *** Inicia el temporizador para el cierre de sesión automático ***
+  private startLogoutTimer(duration: number): void {
+    console.log('Iniciando temporizador de logout para', duration, 'ms');
+    // Asegúrate de limpiar cualquier temporizador previo antes de iniciar uno nuevo
+    this.clearLogoutTimer();
+    this.tokenExpirationTimer = setTimeout(() => {
+      console.log('Temporizador de token expirado disparado, cerrando sesión automáticamente.');
+      this.logout(); // Llama al método de cierre de sesión
+    }, duration);
+  }
+
+  // *** Limpia cualquier temporizador de cierre de sesión activo ***
+  private clearLogoutTimer(): void {
+    console.log('Limpiando temporizador de logout.');
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+      this.tokenExpirationTimer = null;
+    }
+  }
+
+  // *** Método para manejar el "auto-login" o verificación al cargar la app ***
+  // Se llama en el constructor del servicio
+  private autoLogout(): void {
+    const token = this.getToken(); // Obtiene el token (si existe)
+    if (token) { // Si hay token guardado
+      if (!this.isTokenExpired()) { // Y no ha expirado
+        // Calcula el tiempo restante para volver a configurar el temporizador
+        const expiration = localStorage.getItem('token_expiration');
+        const expirationTime = parseInt(expiration!, 10); // Usamos ! porque ya verificamos que existe
+        const timeUntilExpiration = expirationTime - Date.now();
+
+        if (timeUntilExpiration > 0) {
+          console.log('Token válido encontrado al cargar, tiempo restante:', timeUntilExpiration, 'ms. Configurando temporizador.');
+          this.startLogoutTimer(timeUntilExpiration); // Vuelve a configurar el temporizador
+          this.isLoggedInSubject.next(true); // Actualiza el estado de login a true
+          // Opcional: Cargar información del usuario si la guardaste
+          // const userInfo = localStorage.getItem('user_info');
+          // if (userInfo) { this.userInfoSubject.next(JSON.parse(userInfo)); }
+        } else {
+          console.log('Token encontrado al cargar pero ya expirado.');
+          this.logout(); // Si expiró, cierra sesión
+        }
+      } else {
+        console.log('Token encontrado al cargar pero ya expirado.');
+        this.logout(); // Si expiró, cierra sesión
+      }
+    } else {
+      console.log('No se encontró token al cargar.');
+      // Si no hay token, ya estamos en estado logout, pero limpia por si acaso
+      this.logout(); // Asegura el estado de logout
+    }
   }
 
   /**
@@ -109,7 +191,7 @@ export class AuthService {
    */
   getUserInfo(): any | null {
     const token = this.getToken();
-    if(!token){
+    if (!token) {
       return null; // Si no hay token, no hay info del usuario
     }
 
@@ -117,7 +199,7 @@ export class AuthService {
       // los JWT tienen 3 partes separas por '.' (Header.Payload.Signature)
       const base64Url = token.split('.')[1]; // Obtener la parte del payload
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Reemplazar caracteres para decodificar
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join('')); // Decodificar el payload
 
@@ -207,7 +289,7 @@ export class AuthService {
     )
   }
 
-   // Aquí irían otros métodos relacionados con la autenticación si los necesitas,
+  // Aquí irían otros métodos relacionados con la autenticación si los necesitas,
   // como registro, restablecimiento de contraseña, etc., interactuando con tu backend.
 
   // Si tenías métodos de Firebase Auth aquí (como signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, etc.)

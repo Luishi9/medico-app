@@ -73,9 +73,13 @@
 
 
             <li>
-                <button id="dropdownRightEndButton" type="button" data-dropdown-toggle="dropdownRightEnd"
-                    data-dropdown-placement="right-start"
-                    class="flex items-center w-full p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <button id="dropdownRightEndButton" 
+                        type="button" 
+                        (click)="toggleDoctoresDropdown()"
+                        data-dropdown-placement="right-start"
+                        class="flex items-center w-full p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        #dropdownButtonDoctores>
+
                     <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="-1 0 20 18">
                         <path
@@ -93,15 +97,18 @@
 
                 <!-- Dropdown menu -->
                 <div id="dropdownRightEnd"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full dark:bg-gray-700"
+                    #dropdownMenuDoctores>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRightEndButton">
                         <li>
                             <a [routerLink]="['/registro-doctor']"
+                                (click)="hideDoctoresDropdown()"
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dar
                                 de alta Doctor</a>
                         </li>
                         <li>
                             <a [routerLink]="['/list-doctores']"
+                                (click)="hideDoctoresDropdown()"
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">List.
                                 Doctores</a>
                         </li>
@@ -109,9 +116,13 @@
                 </div>
             </li>
             <li>
-                <button id="dropdownRightEndButtonPacientes" type="button"
-                    data-dropdown-toggle="dropdownRightEndPacientes" data-dropdown-placement="right-start"
-                    class="flex items-center w-full p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <button id="dropdownRightEndButtonPacientes" 
+                        type="button"
+                        (click)="togglePacientesDropdown()"
+
+                        data-dropdown-placement="right-start"
+                        class="flex items-center w-full p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        #dropdownButtonPacientes>
 
                     <svg class="shrink-0 w-7 h-7 ms-[-2] text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="2 0 24 24">
@@ -131,16 +142,19 @@
 
                 <!-- Dropdown menu -->
                 <div id="dropdownRightEndPacientes"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                    class="z-10 hidden w-full bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700"
+                    #dropdownMenuPacientes>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdownRightEndButtonPacientes">
                         <li>
                             <a [routerLink]="['/registro-paciente']"
+                                (click)="hidePacientesDropdown()"
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dar
                                 de alta paciente</a>
                         </li>
                         <li>
                             <a [routerLink]="['/list-pacientes']"
+                                (click)="hidePacientesDropdown()"
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">List.
                                 Pacientes</a>
                         </li>
